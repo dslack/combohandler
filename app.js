@@ -6,7 +6,8 @@ Cluster initialization file for the site. See the Cluster docs at
 **/
 
 var cluster = require('cluster'),
-    server  = require('./lib/server');
+    server  = require('./lib/server'),
+    port = 31313;
 
 cluster(server(require('./config')))
     .set('title', 'combohandler')
@@ -26,10 +27,10 @@ cluster(server(require('./config')))
                 signal    : 'SIGQUIT'
             }))
         .use(cluster.debug())
-        .listen(8000)
+        .listen(port)
 
     .in('production')
         .use(cluster.pidfiles())
         .use(cluster.cli())
         .use(cluster.logger('logs'))
-        .listen(8000);
+        .listen(port);
